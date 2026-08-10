@@ -9,7 +9,7 @@ RUN docker-php-ext-install pdo pdo_mysql
 RUN a2enmod rewrite
 
 # Allow .htaccess overrides
-RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+RUN sed -i '/<Directory /var/www>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
 # Set public as Apache DocumentRoot
 RUN sed -i 's#DocumentRoot /var/www/html#DocumentRoot /var/www/html/public#' /etc/apache2/sites-available/000-default.conf
@@ -18,7 +18,6 @@ RUN sed -i 's#DocumentRoot /var/www/html#DocumentRoot /var/www/html/public#' /et
 COPY . /var/www/html/
 
 # Fix permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
 EXPOSE 80
