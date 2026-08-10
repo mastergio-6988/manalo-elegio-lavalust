@@ -1,26 +1,19 @@
-# macOS
-.DS_Store
-
-# Environment
 .env
+.env.*
 !.env.example
 
-# Dependencies
-vendor/
-app/vendor/
-composer.lock
+/vendor/
+/node_modules/
 
-# Cache & Logs
 runtime/*
-!runtime/.htaccess
-!runtime/index.html
-*.log
-*.cache
+!runtime/.gitkeep
 
-# IDE
+*.log
+*.tmp
+*.swp
+.DS_Store
+
 .idea/
 .vscode/
-*.sublime-*
 
-# OS
-Thumbs.db
+docker-compose.override.yml
