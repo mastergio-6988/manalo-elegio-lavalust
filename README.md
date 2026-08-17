@@ -282,3 +282,15 @@ LavaLust Framework is open-source software licensed under the **[MIT License](ht
 - **GitHub Repository:** [https://github.com/ronmarasigan/lavalust](https://github.com/ronmarasigan/lavalust)
 - **Documentation:** [https://lavalust.netlify.app](https://lavalust.netlify.app)
 - **Report an Issue:** [https://github.com/ronmarasigan/lavalust/issues](https://github.com/ronmarasigan/lavalust/issues)
+## Project Customization Log
+
+Use this section as the continuing modification log for the local Laboratory Activity No. 3 project. Add a dated entry whenever the project is customized or a requirement is completed.
+
+### 2026-08-17
+
+- Added the Student Information home and protected profile pages.
+- Added `StudentController` with data passing for the student ID, name, course, year, section, email, address, and skills.
+- Added `StudentMiddleware` to protect `/student/profile`.
+- Customized the student details: ID `MCC2024-00138`, 3rd Year / F2, `manalo.elegioe@minsu.edu.ph`, and Sitio Eastern, Brgy. Personas, Calapan City, Oriental Mindoro.
+- Added responsive email wrapping for the student cards.
+- Removed the separate in-app task-history page; future customization history belongs in this README section.
