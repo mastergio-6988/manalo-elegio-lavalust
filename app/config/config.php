@@ -79,7 +79,7 @@ $config['environment'] = getenv('APP_ENV') ?: 'development';
 | WARNING: You MUST set this value!
 |
 */
-$config['base_url']				= getenv('APP_URL') ?: 'http://LavaLust.test';
+$config['base_url']				= getenv('APP_URL') ?: 'https://manalo-elegioe-lavalustact3.onrender.com';
 
 /*
 |--------------------------------------------------------------------------
