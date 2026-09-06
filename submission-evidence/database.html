@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Evidence - mydb.users</title>
+    <style>
+        body { font-family: Arial, sans-serif; color: #172033; margin: 38px; }
+        h1 { margin-bottom: 6px; }
+        .status { color: #166534; font-weight: bold; }
+        table { border-collapse: collapse; width: 100%; margin: 16px 0 32px; }
+        th, td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; }
+        th { background: #1d4ed8; color: white; }
+        code { background: #e2e8f0; padding: 2px 5px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>Database: <code>mydb</code></h1>
+    <p class="status">Connected successfully - table <code>users</code> contains 5 records.</p>
+
+    <h2>Table structure: users</h2>
+    <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Key</th></tr></thead>
+        <tbody>
+            <tr><td>id</td><td>INT(11)</td><td>PRIMARY KEY</td></tr>
+            <tr><td>firstname</td><td>VARCHAR(100)</td><td></td></tr>
+            <tr><td>lastname</td><td>VARCHAR(100)</td><td></td></tr>
+            <tr><td>email</td><td>VARCHAR(150)</td><td></td></tr>
+            <tr><td>username</td><td>VARCHAR(100)</td><td></td></tr>
+        </tbody>
+    </table>
+
+    <h2>Inserted records</h2>
+    <table>
+        <thead><tr><th>ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Username</th></tr></thead>
+        <tbody>
+            <tr><td>1</td><td>Juan</td><td>Dela Cruz</td><td>juan@example.com</td><td>juandelacruz</td></tr>
+            <tr><td>2</td><td>Maria</td><td>Santos</td><td>maria@example.com</td><td>mariasantos</td></tr>
+            <tr><td>3</td><td>Pedro</td><td>Garcia</td><td>pedro@example.com</td><td>pedrogarcia</td></tr>
+            <tr><td>4</td><td>Ana</td><td>Reyes</td><td>ana@example.com</td><td>anareyes</td></tr>
+            <tr><td>5</td><td>Jose</td><td>Mendoza</td><td>jose@example.com</td><td>josemendoza</td></tr>
+        </tbody>
+    </table>
+</body>
+</html>
