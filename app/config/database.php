@@ -57,15 +57,24 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |   Example: $database['another_example'] = array('key' => 'value')
 */
 
+$db_username = getenv('DB_USERNAME') ?: (getenv('DB_USER') ?: '');
+$db_database = getenv('DB_DATABASE') ?: (getenv('DB_NAME') ?: '');
+$db_ssl_verify = getenv('DB_SSL_VERIFY');
+$db_ssl_verify = ($db_ssl_verify === false || $db_ssl_verify === '')
+    ? TRUE
+    : filter_var($db_ssl_verify, FILTER_VALIDATE_BOOLEAN);
+
 $database['main'] = array(
-    'driver'	=> '',
+    'driver'	=> 'mysql',
     'hostname'	=> getenv('DB_HOST') ?: '',
     'port'		=> getenv('DB_PORT') ?: '',
-    'username'	=> getenv('DB_USER') ?: '',
+    'username'	=> $db_username,
     'password'	=> getenv('DB_PASSWORD') ?: '',
-    'database'	=> getenv('DB_NAME') ?: '',
+    'database'	=> $db_database,
     'charset'	=> '',
     'dbprefix'	=> '',
+    'ssl_ca'    => getenv('DB_SSL_CA') ?: '',
+    'ssl_verify'=> $db_ssl_verify,
     // Optional for SQLite
     'path'      => ''
 );
