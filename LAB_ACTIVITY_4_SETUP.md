@@ -11,7 +11,7 @@ This project is configured for the LavaLust Database and MVC laboratory activity
 ## LavaLust Environment
 
 1. Copy `.env.example` to `.env` if `.env` does not already exist.
-2. Set the database values in `.env`:
+2. Set the database values in `.env` or in Render environment variables:
 
 ```env
 DB_HOST=your-mysql-host
@@ -19,6 +19,12 @@ DB_PORT=your-mysql-port
 DB_USERNAME=your-mysql-user
 DB_PASSWORD=your-mysql-password
 DB_DATABASE=mydb
+```
+
+Alternatively, set one MySQL URL value:
+
+```env
+DATABASE_URL=mysql://your-mysql-user:your-mysql-password@your-mysql-host:your-mysql-port/mydb
 ```
 
 For older local copies, `DB_USER` and `DB_NAME` are also supported.

@@ -57,8 +57,12 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |   Example: $database['another_example'] = array('key' => 'value')
 */
 
-$db_username = getenv('DB_USERNAME') ?: (getenv('DB_USER') ?: '');
-$db_database = getenv('DB_DATABASE') ?: (getenv('DB_NAME') ?: '');
+$database_url = getenv('DATABASE_URL') ?: '';
+$database_parts = $database_url ? parse_url($database_url) : [];
+
+$db_username = getenv('DB_USERNAME') ?: (getenv('DB_USER') ?: ($database_parts['user'] ?? ''));
+$db_password = getenv('DB_PASSWORD') ?: ($database_parts['pass'] ?? '');
+$db_database = getenv('DB_DATABASE') ?: (getenv('DB_NAME') ?: ltrim($database_parts['path'] ?? '', '/'));
 $db_ssl_verify = getenv('DB_SSL_VERIFY');
 $db_ssl_verify = ($db_ssl_verify === false || $db_ssl_verify === '')
     ? TRUE
@@ -66,10 +70,10 @@ $db_ssl_verify = ($db_ssl_verify === false || $db_ssl_verify === '')
 
 $database['main'] = array(
     'driver'	=> 'mysql',
-    'hostname'	=> getenv('DB_HOST') ?: '',
-    'port'		=> getenv('DB_PORT') ?: '',
+    'hostname'	=> getenv('DB_HOST') ?: ($database_parts['host'] ?? ''),
+    'port'		=> getenv('DB_PORT') ?: ($database_parts['port'] ?? ''),
     'username'	=> $db_username,
-    'password'	=> getenv('DB_PASSWORD') ?: '',
+    'password'	=> $db_password,
     'database'	=> $db_database,
     'charset'	=> '',
     'dbprefix'	=> '',
