@@ -1,0 +1,3 @@
+<?php
+defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
+class AuthController extends Controller { private function s(){if(session_status()!==PHP_SESSION_ACTIVE)session_start();} public function login(){$this->s();$this->call->view('auth/login',['error'=>'']);} public function authenticate(){$this->s();$u=trim($_POST['username']??'');$p=(string)($_POST['password']??'');if(hash_equals(getenv('PRODUCT_ADMIN_USERNAME')?:'admin',$u)&&hash_equals(getenv('PRODUCT_ADMIN_PASSWORD')?:'admin123',$p)){session_regenerate_id(true);$_SESSION['product_user']=$u;redirect('products');}$this->call->view('auth/login',['error'=>'Invalid username or password.']);} public function logout(){$this->s();$_SESSION=[];session_destroy();redirect('login');}}

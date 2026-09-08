@@ -46,3 +46,14 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
 $router->get('/', 'Welcome::index');
 $router->get('/users', 'UsersController::index');
+$router->get('/login', 'AuthController::login');
+$router->post('/login', 'AuthController::authenticate');
+$router->post('/logout', 'AuthController::logout');
+$router->get('/products', 'ProductController::index');
+$router->get('/products/create', 'ProductController::create');
+$router->post('/products/create', 'ProductController::store');
+$router->get('/products/edit/{id}', 'ProductController::edit')->where('id', '[0-9]+');
+$router->post('/products/edit/{id}', 'ProductController::update')->where('id', '[0-9]+');
+$router->post('/products/delete/{id}', 'ProductController::delete')->where('id', '[0-9]+');
+
+$router->get('/users', 'UsersController::index');
