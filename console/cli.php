@@ -12,12 +12,12 @@ $commands = [];
 
 // Register built-in commands
 register_command('run', 'handle_run_command', 'Start PHP built-in development server', [
-    '[port]'         => 'Port number (default: 3000)',
+    '[port]'         => 'Port number (default: 3001)',
     '[--port=<n>]'   => 'Port number via flag (e.g. --port=8080)'
 ]);
 
 register_command('serve', 'handle_run_command', 'Start PHP built-in development server', [
-    '[port]'         => 'Port number (default: 3000)',
+    '[port]'         => 'Port number (default: 3001)',
     '[--port=<n>]'   => 'Port number via flag (e.g. --port=8080)'
 ]);
 
@@ -149,7 +149,7 @@ function autoload_commands() {
 }
 
 function handle_run_command($port = null, array $flags = []) {
-    $port = $flags['port'] ?? $port ?? 3000;
+    $port = $flags['port'] ?? $port ?? 3001;
 
     if (!is_dir(PUBLIC_DIR)) {
         echo danger("Public directory not found at: " . PUBLIC_DIR);
