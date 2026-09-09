@@ -277,11 +277,18 @@ class Database {
         );
 
         if ($driver === 'mysql' && $ssl_ca) {
-            if (defined('PDO::MYSQL_ATTR_SSL_CA')) {
+            // PHP 8.4+ moved MySQL-specific PDO constants to Pdo\Mysql.
+            // Prefer the new constants to avoid deprecation warnings on PHP 8.5,
+            // while retaining compatibility with older PHP versions.
+            if (defined('Pdo\\Mysql::ATTR_SSL_CA')) {
+                $options[constant('Pdo\\Mysql::ATTR_SSL_CA')] = $ssl_ca;
+            } elseif (defined('PDO::MYSQL_ATTR_SSL_CA')) {
                 $options[PDO::MYSQL_ATTR_SSL_CA] = $ssl_ca;
             }
 
-            if (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
+            if (defined('Pdo\\Mysql::ATTR_SSL_VERIFY_SERVER_CERT')) {
+                $options[constant('Pdo\\Mysql::ATTR_SSL_VERIFY_SERVER_CERT')] = $ssl_verify;
+            } elseif (defined('PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT')) {
                 $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = $ssl_verify;
             }
         }
