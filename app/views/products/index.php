@@ -25,12 +25,14 @@
     <section class="card table-card">
             <?php if ($products): ?>
             <div class="table-scroll"><table>
-                <thead><tr><th>ID</th><th>Name</th><th>Description</th><th>Price</th><th>Qty</th><th>Actions</th></tr></thead>
+                <thead><tr><th>ID</th><th>Name</th><th>Description</th><th>Price</th><th>Qty</th><th>Created</th><th>Actions</th></tr></thead>
                 <tbody><?php foreach ($products as $product): ?>
                     <tr>
                         <td><?= (int) $product['id'] ?></td><td><?=htmlspecialchars((string) $product['product_name'], ENT_QUOTES, 'UTF-8')?></td><td class="description-cell"><?=htmlspecialchars((string) ($product['description'] ?? '') ?: '—', ENT_QUOTES, 'UTF-8')?></td>
                         <td>₱<?=number_format((float) $product['price'], 2)?></td>
                         <td><?=number_format((int) $product['quantity'])?></td>
+                        <?php $createdAt = new DateTimeImmutable((string) $product['created_at'], new DateTimeZone('UTC')); $createdAtLocal = $createdAt->setTimezone(new DateTimeZone('Asia/Manila')); ?>
+                        <td class="created-at-cell" title="<?=htmlspecialchars($createdAtLocal->format('F j, Y g:i:s A'), ENT_QUOTES, 'UTF-8')?>"><?=htmlspecialchars($createdAtLocal->format('M j, Y g:i A'), ENT_QUOTES, 'UTF-8')?></td>
                         <td><div class="actions"><a class="btn edit small" href="<?=site_url('products/edit/'.(int) $product['id'])?>">Edit</a><form method="post" action="<?=site_url('products/delete/'.(int) $product['id'])?>" onsubmit="return confirm('Are you sure you want to delete this product?');"><?php csrf_field(); ?><button class="btn danger small" type="submit">Delete</button></form></div></td>
                     </tr>
                 <?php endforeach ?></tbody>
