@@ -3,15 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sign in · Forge Product Manager</title>
-    <link rel="stylesheet" href="<?=site_url('lab6/styles.css?v=2')?>">
-    <link rel="stylesheet" href="<?=site_url('lab6/premium.css?v=2')?>">
+    <title>Sign in · Product Manager</title>
+    <link rel="stylesheet" href="<?=site_url('lab6/styles.css?v=3')?>">
 </head>
 <body>
     <main class="login card">
         <div class="brand">
             <div class="mark">F</div>
-            <div><div class="eyebrow">FORGE&nbsp; / &nbsp;INVENTORY</div><h1>Product Manager</h1></div>
+            <div><div class="eyebrow">PRODUCT MANAGEMENT</div><h1>Product Manager</h1></div>
         </div>
         <div class="login-intro">
             <div class="eyebrow">YOUR PRODUCT WORKSPACE</div>

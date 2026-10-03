@@ -3,9 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?=htmlspecialchars($title, ENT_QUOTES, 'UTF-8')?> · Forge Product Manager</title>
-    <link rel="stylesheet" href="<?=site_url('lab6/styles.css?v=2')?>">
-    <link rel="stylesheet" href="<?=site_url('lab6/premium.css?v=2')?>">
+    <title><?=htmlspecialchars($title, ENT_QUOTES, 'UTF-8')?> · Product Manager</title>
+    <link rel="stylesheet" href="<?=site_url('lab6/styles.css?v=3')?>">
 </head>
 <body>
 <main class="shell">
