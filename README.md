@@ -1,5 +1,9 @@
 # LavaLust Framework
 
+## Laboratory Exercise No. 6
+
+The React/Vite product management frontend, LavaLust API, Aiven setup, and Render deployment notes are in [LABORATORY_EXERCISE_6.md](LABORATORY_EXERCISE_6.md). The frontend source is in `frontend/` and can be deployed separately as a Render Static Site.
+
 > A lightweight, fast PHP framework built for developers who want clean MVC architecture without unnecessary complexity or performance overhead.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)

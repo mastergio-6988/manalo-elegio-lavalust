@@ -1,1 +1,27 @@
-<!doctype html><title><?=htmlspecialchars($title, ENT_QUOTES, 'UTF-8')?></title><style>body{font:16px Arial;margin:40px}form{max-width:600px}input,textarea,button{width:100%;box-sizing:border-box;padding:10px;margin:7px 0}button{background:#4f46e5;color:white;border:0}.e{color:#b00}</style><a href="<?=site_url('products')?>">← Products</a><h1><?=htmlspecialchars($title, ENT_QUOTES, 'UTF-8')?></h1><?php if($error):?><p class=e><?=htmlspecialchars($error, ENT_QUOTES, 'UTF-8')?></p><?php endif?><form method=post action="<?=site_url($action)?>"><?php csrf_field(); ?><input name=product_name maxlength=100 required placeholder="Product name" value="<?=htmlspecialchars($product['product_name']??'', ENT_QUOTES, 'UTF-8')?>"><textarea name=description placeholder=Description><?=htmlspecialchars($product['description']??'', ENT_QUOTES, 'UTF-8')?></textarea><input name=price type=number min=0 step=.01 required placeholder=Price value="<?=htmlspecialchars($product['price']??'', ENT_QUOTES, 'UTF-8')?>"><input name=quantity type=number min=0 required placeholder=Quantity value="<?=htmlspecialchars($product['quantity']??'', ENT_QUOTES, 'UTF-8')?>"><button>Save product</button></form>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?=htmlspecialchars($title, ENT_QUOTES, 'UTF-8')?> · Forge Product Manager</title>
+    <link rel="stylesheet" href="<?=site_url('lab6/styles.css?v=2')?>">
+    <link rel="stylesheet" href="<?=site_url('lab6/premium.css?v=2')?>">
+</head>
+<body>
+<main class="shell">
+    <header class="top"><div class="brand"><div class="mark">F</div><div><div class="eyebrow">FORGE&nbsp; / &nbsp;INVENTORY</div><h1>Product Manager</h1></div></div><a class="btn light" href="<?=site_url('products')?>">Back to inventory</a></header>
+    <section class="card form-card" style="max-width:620px;margin:0 auto">
+        <div class="form-kicker eyebrow">CATALOG DETAILS</div><h3><?=htmlspecialchars($title, ENT_QUOTES, 'UTF-8')?></h3><p class="form-copy">Keep product details accurate and up to date.</p>
+        <?php if($error): ?><p class="alert"><?=htmlspecialchars($error, ENT_QUOTES, 'UTF-8')?></p><?php endif ?>
+        <form method="post" action="<?=site_url($action)?>">
+            <?php csrf_field(); ?>
+            <div class="field"><label for="product_name">Product name</label><input class="input" id="product_name" name="product_name" maxlength="100" required placeholder="e.g. Leather weekender" value="<?=htmlspecialchars((string) ($product['product_name'] ?? ''), ENT_QUOTES, 'UTF-8')?>"></div>
+            <div class="field"><label for="description">Description</label><textarea class="input" id="description" name="description" placeholder="Materials, details, and notes"><?=htmlspecialchars((string) ($product['description'] ?? ''), ENT_QUOTES, 'UTF-8')?></textarea></div>
+            <div class="form-row"><div class="field"><label for="price">Price (PHP)</label><input class="input" id="price" name="price" type="number" min="0" step="0.01" required placeholder="0.00" value="<?=htmlspecialchars((string) ($product['price'] ?? ''), ENT_QUOTES, 'UTF-8')?>"></div>
+            <div class="field"><label for="quantity">Quantity</label><input class="input" id="quantity" name="quantity" type="number" min="0" step="1" required placeholder="0" value="<?=htmlspecialchars((string) ($product['quantity'] ?? ''), ENT_QUOTES, 'UTF-8')?>"></div></div>
+            <div class="form-actions"><button class="btn" type="submit">Save product</button><a class="btn light" href="<?=site_url('products')?>">Cancel</a></div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

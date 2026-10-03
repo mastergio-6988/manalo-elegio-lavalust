@@ -1,5 +1,28 @@
 <?php
 define('PREVENT_DIRECT_ACCESS', TRUE);
+
+// Browser preflight requests are not routed through the API controller, so
+// answer them before the framework router attempts to match an OPTIONS route.
+$requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+if (strpos((string) $requestPath, '/api/') === 0) {
+    $allowedOrigin = (string) (getenv('API_ALLOWED_ORIGIN') ?: '*');
+    $requestOrigin = (string) ($_SERVER['HTTP_ORIGIN'] ?? '');
+
+    if ($allowedOrigin === '*') {
+        header('Access-Control-Allow-Origin: *');
+    } elseif ($requestOrigin !== '' && hash_equals($allowedOrigin, $requestOrigin)) {
+        header('Access-Control-Allow-Origin: ' . $allowedOrigin);
+        header('Vary: Origin');
+    }
+
+    header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+    if (($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS') {
+        http_response_code(204);
+        exit;
+    }
+}
 /**
  * ------------------------------------------------------------------
  * LavaLust - an opensource lightweight PHP MVC Framework

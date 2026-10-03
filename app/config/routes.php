@@ -56,4 +56,18 @@ $router->get('/products/edit/{id}', 'ProductController::edit')->where('id', '[0-
 $router->post('/products/edit/{id}', 'ProductController::update')->where('id', '[0-9]+');
 $router->post('/products/delete/{id}', 'ProductController::delete')->where('id', '[0-9]+');
 
+// Authenticated product API used by the React laboratory frontend.
+$router->post('/api/auth/login', 'ProductApiController::login');
+$router->post('/api/auth/refresh', 'ProductApiController::refresh');
+$router->post('/api/auth/logout', 'ProductApiController::logout');
+$router->get('/api/products', 'ProductApiController::index');
+$router->post('/api/products', 'ProductApiController::store');
+$router->put('/api/products/{id}', 'ProductApiController::update')->where('id', '[0-9]+');
+$router->patch('/api/products/{id}', 'ProductApiController::update')->where('id', '[0-9]+');
+$router->delete('/api/products/{id}', 'ProductApiController::delete')->where('id', '[0-9]+');
+
+// Internal route used only by the local PHP CLI migration command.
+$router->get('/_cli/migration/{action}', 'MigrationController::run')->where('action', '[a-z-]+');
+$router->get('/_cli/migration/create/{migration_name}', 'MigrationController::create')->where('migration_name', '[a-zA-Z0-9_-]+');
+
 $router->get('/users', 'UsersController::index');
