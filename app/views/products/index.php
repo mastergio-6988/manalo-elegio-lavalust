@@ -40,7 +40,7 @@ foreach ($products as $product) {
                         <td><strong><?=htmlspecialchars((string) $product['product_name'], ENT_QUOTES, 'UTF-8')?></strong><div class="desc"><?=htmlspecialchars((string) ($product['description'] ?? '') ?: 'No description', ENT_QUOTES, 'UTF-8')?></div></td>
                         <td>₱<?=number_format((float) $product['price'], 2)?></td>
                         <td><?=number_format((int) $product['quantity'])?></td>
-                        <td><div class="actions"><a class="btn light small" href="<?=site_url('products/edit/'.(int) $product['id'])?>">Edit</a><form method="post" action="<?=site_url('products/delete/'.(int) $product['id'])?>"><?php csrf_field(); ?><button class="btn danger small" type="submit">Delete</button></form></div></td>
+                        <td><div class="actions"><a class="btn light small" href="<?=site_url('products/edit/'.(int) $product['id'])?>">Edit</a><form method="post" action="<?=site_url('products/delete/'.(int) $product['id'])?>" onsubmit="return confirm('Are you sure you want to delete this product?');"><?php csrf_field(); ?><button class="btn danger small" type="submit">Delete</button></form></div></td>
                     </tr>
                 <?php endforeach ?></tbody>
             </table></div>

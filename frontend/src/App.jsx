@@ -96,10 +96,6 @@ function Products({ onLogout }) {
   const [product, setProduct] = useState(initialProduct);
   const [editingId, setEditingId] = useState(null);
   const [formOpen, setFormOpen] = useState(false);
-  const [authAction, setAuthAction] = useState(null);
-  const [authCredentials, setAuthCredentials] = useState({ username: '', password: '' });
-  const [authError, setAuthError] = useState('');
-  const [authBusy, setAuthBusy] = useState(false);
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const totalUnits = products.reduce((total, item) => total + Number(item.quantity || 0), 0);
@@ -122,7 +118,7 @@ function Products({ onLogout }) {
     setProduct((current) => ({ ...current, [event.target.name]: event.target.value }));
   }
 
-  async function saveProduct(credentials) {
+  async function saveProduct() {
     setBusy(true);
     setError('');
     const editing = editingId !== null;
@@ -133,7 +129,6 @@ function Products({ onLogout }) {
           ...product,
           price: Number(product.price),
           quantity: Number(product.quantity),
-          reauth: credentials,
         }),
       });
       setProduct(initialProduct);
@@ -141,7 +136,7 @@ function Products({ onLogout }) {
       setFormOpen(false);
       await loadProducts();
     } catch (err) {
-      throw err;
+      setError(err.message);
     } finally {
       setBusy(false);
     }
@@ -165,51 +160,27 @@ function Products({ onLogout }) {
     setFormOpen(false);
   }
 
-  async function deleteProduct(item, credentials) {
+  async function deleteProduct(item) {
     try {
-      await apiRequest(`/api/products/${item.id}`, {
-        method: 'DELETE',
-        body: JSON.stringify({ reauth: credentials }),
-      });
+      await apiRequest(`/api/products/${item.id}`, { method: 'DELETE' });
       await loadProducts();
     } catch (err) {
-      throw err;
+      setError(err.message);
     }
-  }
-
-  function requestAuthentication(action) {
-    setAuthAction(action);
-    setAuthCredentials({ username: '', password: '' });
-    setAuthError('');
-  }
-
-  function cancelAuthentication() {
-    setAuthAction(null);
-    setAuthCredentials({ username: '', password: '' });
-    setAuthError('');
   }
 
   function requestSave(event) {
     event.preventDefault();
-    requestAuthentication({ type: 'save' });
+    const message = editingId !== null
+      ? 'Are you sure you want to save these product changes?'
+      : 'Are you sure you want to add this product?';
+    if (!window.confirm(message)) return;
+    saveProduct();
   }
 
-  async function authorizeMutation(event) {
-    event.preventDefault();
-    if (!authAction) return;
-    setAuthBusy(true);
-    setAuthError('');
-    try {
-      const action = authAction;
-      if (action.type === 'save') await saveProduct(authCredentials);
-      else await deleteProduct(action.item, authCredentials);
-      setAuthAction(null);
-      setAuthCredentials({ username: '', password: '' });
-    } catch (err) {
-      setAuthError(err.message);
-    } finally {
-      setAuthBusy(false);
-    }
+  function requestDelete(item) {
+    if (!window.confirm(`Are you sure you want to delete “${item.product_name}”?`)) return;
+    deleteProduct(item);
   }
 
   return (
@@ -242,7 +213,7 @@ function Products({ onLogout }) {
                 <td><strong>{item.product_name}</strong><div className="desc">{item.description || 'No description'}</div></td>
                 <td>{money(item.price)}</td>
                 <td>{Number(item.quantity).toLocaleString('en-PH')}</td>
-                <td><div className="actions"><button className="btn light small" onClick={() => editProduct(item)}>Edit</button><button className="btn danger small" onClick={() => requestAuthentication({ type: 'delete', item })}>Delete</button></div></td>
+                <td><div className="actions"><button className="btn light small" onClick={() => editProduct(item)}>Edit</button><button className="btn danger small" onClick={() => requestDelete(item)}>Delete</button></div></td>
               </tr>
             ))}</tbody>
           </table></div> : <div className="empty"><div className="empty-mark">F</div><strong>Your catalog starts here</strong><p>Add a product to begin building your inventory.</p></div>}
@@ -268,19 +239,6 @@ function Products({ onLogout }) {
       </div>
       <p className="footer">SECURE INVENTORY WORKSPACE&nbsp; · &nbsp;PRODUCT DATA PROTECTED BY LAVALUST</p>
 
-      {authAction && <div className="auth-overlay" onMouseDown={(event) => { if (event.target === event.currentTarget && !authBusy) cancelAuthentication(); }}>
-        <section className="card auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title">
-          <div className="eyebrow">SECURITY CHECK</div>
-          <h2 id="auth-title">Confirm your identity</h2>
-          <p className="form-copy">Enter your product manager credentials to {authAction.type === 'delete' ? `delete “${authAction.item.product_name}”` : editingId !== null ? 'update this product' : 'add this product'}.</p>
-          {authError && <p className="alert" role="alert">{authError}</p>}
-          <form onSubmit={authorizeMutation}>
-            <div className="field"><label htmlFor="reauth_username">Username</label><input className="input" id="reauth_username" autoComplete="username" value={authCredentials.username} onChange={(event) => setAuthCredentials((current) => ({ ...current, username: event.target.value }))} required /></div>
-            <div className="field"><label htmlFor="reauth_password">Password</label><input className="input" id="reauth_password" type="password" autoComplete="current-password" value={authCredentials.password} onChange={(event) => setAuthCredentials((current) => ({ ...current, password: event.target.value }))} required /></div>
-            <div className="form-actions"><button type="button" className="btn light" disabled={authBusy} onClick={cancelAuthentication}>Cancel</button><button className="btn" disabled={authBusy}>{authBusy ? 'Verifying…' : 'Verify & continue'}</button></div>
-          </form>
-        </section>
-      </div>}
     </main>
   );
 }

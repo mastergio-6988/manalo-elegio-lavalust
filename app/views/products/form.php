@@ -13,7 +13,7 @@
     <section class="card form-card" style="max-width:620px;margin:0 auto">
         <div class="form-kicker eyebrow">CATALOG DETAILS</div><h3><?=htmlspecialchars($title, ENT_QUOTES, 'UTF-8')?></h3><p class="form-copy">Keep product details accurate and up to date.</p>
         <?php if($error): ?><p class="alert"><?=htmlspecialchars($error, ENT_QUOTES, 'UTF-8')?></p><?php endif ?>
-        <form method="post" action="<?=site_url($action)?>">
+        <form method="post" action="<?=site_url($action)?>" onsubmit="return confirm('Are you sure you want to save this product?');">
             <?php csrf_field(); ?>
             <div class="field"><label for="product_name">Product name</label><input class="input" id="product_name" name="product_name" maxlength="100" required placeholder="e.g. Leather weekender" value="<?=htmlspecialchars((string) ($product['product_name'] ?? ''), ENT_QUOTES, 'UTF-8')?>"></div>
             <div class="field"><label for="description">Description</label><textarea class="input" id="description" name="description" placeholder="Materials, details, and notes"><?=htmlspecialchars((string) ($product['description'] ?? ''), ENT_QUOTES, 'UTF-8')?></textarea></div>
