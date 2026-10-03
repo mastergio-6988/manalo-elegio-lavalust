@@ -72,7 +72,7 @@ Open `http://127.0.0.1:5173/login`. The Vite development proxy forwards `/api` r
 | `PUT` / `PATCH` | `/api/products/{id}` | Bearer token required |
 | `DELETE` | `/api/products/{id}` | Bearer token required |
 
-The API returns JSON and validates product names, non-negative prices, and whole-number quantities. The API helper rejects missing or weak JWT keys at startup.
+The API returns JSON and validates product names, non-negative prices, and whole-number quantities. Each create, update, and delete request also requires the administrator to re-enter the configured username and password; the API checks these credentials before changing data. The API helper rejects missing or weak JWT keys at startup.
 
 ### 6. Render and Aiven deployment
 

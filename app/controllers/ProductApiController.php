@@ -89,6 +89,7 @@ class ProductApiController extends Controller
         $this->api->require_method('POST');
         $this->authenticate();
         $input = $this->api->body();
+        $this->requireProductCredentials($input);
         $data = $this->validatedProduct($input);
         if (isset($data['error'])) $this->api->respond_error($data['error'], 422);
 
@@ -107,6 +108,7 @@ class ProductApiController extends Controller
         $this->api->require_method($_SERVER['REQUEST_METHOD'] === 'PATCH' ? 'PATCH' : 'PUT');
         $this->authenticate();
         $input = $this->api->body();
+        $this->requireProductCredentials($input);
         $data = $this->validatedProduct($input);
         if (isset($data['error'])) $this->api->respond_error($data['error'], 422);
 
@@ -124,6 +126,7 @@ class ProductApiController extends Controller
         $this->bootApi();
         $this->api->require_method('DELETE');
         $this->authenticate();
+        $this->requireProductCredentials($this->api->body());
         $this->bootDatabase();
         if (!$this->findProduct((int) $id)) $this->api->respond_error('Product not found.', 404);
         $this->db->raw('DELETE FROM products WHERE id = ?', [(int) $id]);
@@ -147,6 +150,23 @@ class ProductApiController extends Controller
             'price' => number_format((float) $price, 2, '.', ''),
             'quantity' => $quantity,
         ];
+    }
+
+    private function requireProductCredentials(array $input)
+    {
+        $reauth = $input['reauth'] ?? [];
+        $username = (string) getenv('PRODUCT_ADMIN_USERNAME');
+        $password = (string) getenv('PRODUCT_ADMIN_PASSWORD');
+
+        if ($username === '' || $password === '') {
+            $this->api->respond_error('API login is not configured.', 503);
+        }
+
+        if (!is_array($reauth) ||
+            !hash_equals($username, (string) ($reauth['username'] ?? '')) ||
+            !hash_equals($password, (string) ($reauth['password'] ?? ''))) {
+            $this->api->respond_error('Please re-enter your username and password to confirm this change.', 401);
+        }
     }
 
     private function findProduct($id)
